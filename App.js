@@ -1,22 +1,40 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
-import {Button, StyleSheet, Text, TextInput, View} from 'react-native';
+import {Button, ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
 
 export default function App() {
-  const [name,setName]=useState('raki')
-  const [age,setAge]=useState()
+ const [people,setPeople]=useState([
+   {name:'ram',age:15},
+   {name:'ran',age:16},
+   {name:'rak',age:17},
+   {name:'rav',age:18},
+     {name:'ram',age:15},
+     {name:'ran',age:16},
+     {name:'rak',age:17},
+     {name:'rav',age:18},
+     {name:'ram',age:15},
+     {name:'ran',age:16},
+     {name:'rak',age:17},
+     {name:'rav',age:18},
+
+ ])
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text>Enter name:-</Text>
-        <TextInput multiline style={styles.input} onChangeText={(v)=>setName(v)}  />
+        <Text>Name & Age</Text>
       </View>
-      <View style={styles.body}>
-        <Text>Enter age:-</Text>
-        <TextInput keyboardType='numeric' style={styles.input} onChangeText={(v)=>setAge(v)}  />
-        <Text>{name} present age is {age}!!!</Text>
-      </View>
+        <ScrollView>
+      {
+        people.map((item)=>{
+         return(
+             <View key={item.age} style={styles.body}>
+               <Text>{item.name} present age is {item.age}!!!</Text>
+             </View>
+         )
+        })
+      }
+        </ScrollView>
     </View>
   );
 }
@@ -31,7 +49,11 @@ const styles = StyleSheet.create({
   header:{
     padding:10
   },
-  input:{
-    borderWidth:1.5
+  body:{
+    padding:1.5,
+      borderWidth:2,
+      backgroundColor: 'pink',
+      height:50,
+      margin:5
   }
 });
