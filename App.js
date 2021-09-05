@@ -1,17 +1,19 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useState} from 'react';
+import {Button, StyleSheet, Text, View} from 'react-native';
 
 export default function App() {
+  const [name,setName]=useState('raki')
+  const changeHandler=()=>{
+    setName('Rakesh')
+  }
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text>Insane Header!</Text>
+        <Text>Insane Header! {name}</Text>
       </View>
       <View style={styles.body}>
-        <Text>Insane!</Text>
-        <Text>Insane!</Text>
-        <Text>Insane!</Text>
+        <Button title='Update name' onPress={changeHandler}/>
       </View>
     </View>
   );
