@@ -1,22 +1,29 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
-import {Button, FlatList, ScrollView, StyleSheet, Text, TextInput, View} from 'react-native';
+import {Button, FlatList, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import Header from "./components/Header";
+import TodoItem from "./components/TodoItem";
 
 export default function App() {
-  const DATA = [
+  const [todos,setTodos]=useState([
     {
-      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-      title: 'First Item',
+      key: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+      title: 'Drinking Milk',
     },
     {
-      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-      title: 'Second Item',
+      key: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+      title: 'Learning mobile app',
     },
     {
-      id: '58694a0f-3da1-471f-bd96-145571e29d72',
-      title: 'Third Item',
+      key: '58694a0f-3da1-471f-bd96-145571e29d72',
+      title: 'Reading books',
     },
-  ];
+  ])
+
+  const pressHandler=id=>{
+    const newList=todos.filter((item)=>item.key!==id)
+    setTodos(newList)
+  }
 
   const Item = ({ title }) => (
       <View style={styles.item}>
@@ -24,18 +31,19 @@ export default function App() {
       </View>
   );
   const renderItem = ({ item }) => (
-      <Item title={item.title} />
+      <TodoItem item={item} pressHandler={pressHandler} />
   );
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text>Name & Age</Text>
+      <Header />
+      <View style={styles.content}>
+        <View style={styles.list}>
+        <FlatList
+            data={todos}
+            renderItem={renderItem}
+        />
+        </View>
       </View>
-      <FlatList
-          data={DATA}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-      />
     </View>
   );
 }
@@ -43,18 +51,14 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#fff'
   },
-  header:{
-    padding:10
+  content:{
+    padding: 40,
+    flex:1
   },
-  body:{
-    padding:1.5,
-      borderWidth:2,
-      backgroundColor: 'pink',
-      height:50,
-      margin:5
+  list:{
+    marginTop:20,
+    flex:1
   }
 });
