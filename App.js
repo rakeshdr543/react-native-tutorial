@@ -1,8 +1,9 @@
-import { StatusBar } from 'expo-status-bar';
 import React, {useState} from 'react';
 import {Button, FlatList, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import Header from "./components/Header";
 import TodoItem from "./components/TodoItem";
+import {Alert, Keyboard, TouchableWithoutFeedback} from "react-native-web";
+import AddTodo from "./components/AddTodo";
 
 export default function App() {
   const [todos,setTodos]=useState([
@@ -25,6 +26,21 @@ export default function App() {
     setTodos(newList)
   }
 
+  const submitHandler = (text) => {
+    if(text.length > 3){
+      setTodos(prevTodos => {
+        return [
+          { title:text, key: Math.random().toString() },
+          ...prevTodos
+        ];
+      });
+    } else {
+      Alert.alert('OOPS', 'Todo must be over 3 characters long', [
+        {text: 'Understood', onPress: () => console.log('alert closed') }
+      ]);
+    }
+  };
+
   const Item = ({ title }) => (
       <View style={styles.item}>
         <Text style={styles.title}>{title}</Text>
@@ -34,9 +50,11 @@ export default function App() {
       <TodoItem item={item} pressHandler={pressHandler} />
   );
   return (
+      <TouchableWithoutFeedback onPress={()=>Keyboard.dismiss()}>
     <View style={styles.container}>
       <Header />
       <View style={styles.content}>
+        <AddTodo submitHandler={submitHandler} />
         <View style={styles.list}>
         <FlatList
             data={todos}
@@ -45,6 +63,7 @@ export default function App() {
         </View>
       </View>
     </View>
+      </TouchableWithoutFeedback>
   );
 }
 
